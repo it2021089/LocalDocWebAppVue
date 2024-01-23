@@ -1,0 +1,143 @@
+<template>
+    <div class="overlay">
+      <div class="modal-container">
+        <div class="modal-content">
+          <div class="text-center mb-4">
+            <h3 class="display-4 text-dark font-bold">User Registration</h3>
+          </div>
+  
+          <form @submit.prevent="onFormSubmit">
+            <div class="form-group">
+              <label for="usernameFormControl" class="form-label text-dark">User Name</label>
+              <input v-model="user.username" type="text" class="form-control rounded-3" id="usernameFormControl" />
+            </div>
+  
+            <div class="form-group">
+              <label for="emailFormControl" class="form-label text-dark">Email</label>
+              <input v-model="user.email" type="text" class="form-control rounded-3" id="emailFormControl" />
+            </div>
+  
+            <div class="form-group">
+              <label for="passwordFormControl" class="form-label text-dark">Password</label>
+              <input v-model="user.password" type="password" class="form-control rounded-3" id="passwordFormControl" />
+            </div>
+  
+            <div class="form-group">
+              <label for="roleFormControl" class="form-label text-dark">Role</label>
+              <select v-model="user.role" class="form-control rounded-3" id="roleFormControl">
+                <option value="ROLE_CLIENT">Client</option>
+                <option value="ROLE_DOCTOR">Doctor</option>
+              </select>
+            </div>
+  
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg rounded-3 font-bold">Sign Up</button>
+            </div>
+          </form>
+  
+          <div class="h6 text-danger text-center mt-3">{{ msg }}</div>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue';
+  
+  const user = ref({
+    username: '',
+    email: '',
+    password: '',
+    role: 'ROLE_CLIENT',
+  });
+  
+  const msg = ref('');
+  
+  const onFormSubmit = () => {
+    const endpoint = 'http://localhost:9090/api/auth/saveUser';
+  
+    // Create an object with the user data
+    const userData = {
+      username: user.value.username,
+      email: user.value.email,
+      password: user.value.password,
+      role: user.value.role,
+    };
+  
+    // Perform the HTTP POST request
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Successful registration
+          msg.value = 'User registered successfully!';
+        } else {
+          // Registration failed
+          msg.value = 'Failed to register user. Please try again.';
+        }
+      })
+      .catch((error) => {
+        console.error('Error during registration:', error);
+        msg.value = 'An error occurred during registration. Please try again.';
+      });
+  };
+  </script>
+  
+  <style scoped>
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Set height to 100% */
+  background-color: #b1cfed;
+}
+  
+.modal-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto; /* Center the container horizontally */
+}
+  
+  .modal-content {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #dfeaf0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  background: linear-gradient(to right, #9efadd, #60f0ee, #a8e0ff);
+  color: #000000;
+  transition: background 0.3s ease;
+  border: none; /* Remove border property */
+  outline: none; /* Remove outline */
+}
+
+.btn:hover {
+  box-shadow: 0 0 10px rgba(80, 173, 240, 0.5);
+}
+  
+  /* Add more specific styling if needed */
+  </style>

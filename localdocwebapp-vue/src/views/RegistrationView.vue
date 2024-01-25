@@ -43,6 +43,7 @@
   
   <script setup>
   import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
   
   const user = ref({
     username: '',
@@ -52,6 +53,7 @@
   });
   
   const msg = ref('');
+  const router = useRouter();
   
   const onFormSubmit = () => {
     const endpoint = 'http://localhost:9090/api/auth/saveUser';
@@ -74,10 +76,17 @@
     })
       .then((response) => {
         if (response.ok) {
-          // Successful registration
-          msg.value = 'User registered successfully!';
+          msg.value = 'User registered successfully! Redirecting to login...';
+  
+          setTimeout(() => {
+            router.push({ name: 'login' });
+            setTimeout(()=>
+            { 
+              location.reload();
+            }
+            )
+          }, 2000);
         } else {
-          // Registration failed
           msg.value = 'Failed to register user. Please try again.';
         }
       })

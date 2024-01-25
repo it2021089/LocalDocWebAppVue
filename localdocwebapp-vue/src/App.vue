@@ -1,27 +1,29 @@
 <script setup>
 import { onBeforeMount } from 'vue';
-import { RouterView } from 'vue-router';
+import { RouterView, useRouter } from 'vue-router';
 import { useApplicationStore } from '@/stores/application.js';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
+
 const { loadUserData } = useApplicationStore();
+const router = useRouter();
 
 onBeforeMount(() => {
-    // If this method is non-blocking, add a loader.
-    loadUserData();
+  loadUserData();
 });
+
+const isHomePage = () => router.currentRoute.value.name === 'home';
 </script>
 
 <template>
-    <div id="app">
-      <AppHeader />
-      <RouterView />
-      <AppFooter />
-    </div>
-  </template>
+  <div id="app">
+    <AppHeader v-if="isHomePage" />
+    <RouterView />
+    <AppFooter />
+  </div>
+</template>
 
 <style>
-/* Reset some default styles */
 html,
 body,
 #app {
@@ -43,21 +45,19 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #b1cfed; /* Dark blue background */
+  background-color: #b1cfed; 
 }
 
-/* Header style */
 header {
-  background-color: #3498db; /* Blue header */
+  background-color: #3498db; 
   color: #ffffff;
   padding: 1rem;
   text-align: center;
   transition: background-color 0.5s ease;
 }
 
-/* Navigation bar style */
 nav {
-  background-color: #34495e; /* Darker blue navigation */
+  background-color: #34495e; 
   color: #ecf0f1;
   padding: 1rem;
   display: flex;
@@ -77,13 +77,11 @@ nav a:hover {
   color: #3498db;
 }
 
-/* Content style */
 main {
   width: 80%;
   margin: 2rem 0;
 }
 
-/* Footer style */
 footer {
   background-color: #3498db;
   color: #ffffff;
@@ -92,3 +90,4 @@ footer {
   transition: background-color 0.5s ease;
 }
 </style>
+  

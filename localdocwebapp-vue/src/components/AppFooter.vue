@@ -11,5 +11,8 @@
   background-color: #b1cfed;; /* Set your preferred background color */
   color: #7e8182; /* Set your preferred text color */
   padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>

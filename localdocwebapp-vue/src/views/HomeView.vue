@@ -1,12 +1,30 @@
-<template>
-    <div class="bg-body-tertiary">
-      <div class="container">
-        <div class="row py-4 px-3">
-          <div class="col">
-            <h1>Family Doctor App</h1>
-            <p>Welcome to the Family Doctor App.</p>
-          </div>
+    <template>
+        
+        <div>
+            <h1 class="zoomInUp">FamilyDocApp</h1>
         </div>
-      </div>
-    </div>
-  </template>
+    </template>
+
+    <script>
+    import { useApplicationStore } from '@/stores/application.js';
+
+const {  userData } = useApplicationStore();
+console.log(userData.value);
+
+    </script>
+    <style>
+    .zoomInUp {
+    animation: zoomInUp 1s ease forwards;
+    }
+
+    @keyframes zoomInUp {
+    from {
+        opacity: 0;
+        transform: translateY(-150px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-200px);
+    }
+    }
+    </style>

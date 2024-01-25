@@ -4,6 +4,12 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      name: 'home',
+      component: () => import('../views/HomeView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/home',
       name: 'home',
       component: () => import('../views/HomeView.vue'),
@@ -16,8 +22,8 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/add-client',
-      name: 'add-client',
+      path: '/client/new',
+      name: 'client-new',
       component: () => import('../views/AddClientView.vue'),
       meta: { requiresAuth: true }
     },
@@ -34,13 +40,13 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/client-list',
+      path: '/client/list',
       name: 'client-list',
       component: () => import('../views/ClientListView.vue'),
       meta: { requiresAuth: true }
     },
     {
-      path: '/doctor-list',
+      path: '/doctor/list',
       name: 'doctor-list',
       component: () => import('../views/DoctorListView.vue'),
       meta: { requiresAuth: true }
@@ -77,7 +83,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const { isAuthenticated } = useApplicationStore();
+  const { loadUserData,isAuthenticated } = useApplicationStore();
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
   console.log('Route:', to.path);
@@ -90,6 +96,7 @@ router.beforeEach((to, from, next) => {
   } else {
     console.log('User authenticated or route does not require auth. Proceeding.');
     next();
+    loadUserData();
   }
 });
 

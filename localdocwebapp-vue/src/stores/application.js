@@ -1,16 +1,9 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
+import { useRouter } from 'vue-router';
 
-function checkJWT(token) {
-    if (token === null || token === undefined) {
-        return false;
-    }
-    const base64Url = token.split('.')[1];
-    if (!base64Url) return false;
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Convert base64url to base64
-    const payload = JSON.parse(atob(base64)); // Decode base64 and parse JSON
-    const currentTime = Math.floor(Date.now() / 1000); // Get current time in Unix timestamp (seconds)
-    return currentTime < payload.exp; // Check if token is expired
+function checkJWT(response) {
+    return response && response.success === true;
 }
 
 export const useApplicationStore = defineStore('application', () => {
@@ -19,24 +12,52 @@ export const useApplicationStore = defineStore('application', () => {
     const setUserData = (tempUserData) => {
         userData.value = tempUserData;
     };
+
     const persistUserData = () => {
         localStorage.setItem('userData', JSON.stringify(userData.value));
     };
+
     const loadUserData = () => {
-        let tempUserData = localStorage.getItem('userData');
-        tempUserData = JSON.parse(tempUserData);
-        if (tempUserData === null || tempUserData === undefined) {
-            return;
+        const tempUserData = localStorage.getItem('userData');
+        try {
+            userData.value = JSON.parse(tempUserData) || {};
+        } catch (error) {
+            console.error('Error parsing user data:', error);
+            userData.value = {};
         }
-        userData.value = tempUserData;
     };
+
     const clearUserData = () => {
         localStorage.setItem('userData', JSON.stringify(null));
         userData.value = null;
+        isAuthenticated.value = false;
+
     };
+    const router = useRouter();
+    const loading = ref(false);
+
+    const logout = () => {
+        loading.value = true;
+        clearUserData();
+        loading.value = false;
+        router.push({ name: 'login' });
+
+        setTimeout(() => {
+            location.reload();
+        }, 500);
+      };
     const isAuthenticated = computed(() => {
-        return checkJWT(userData.value?.accessToken);
+        return checkJWT(userData.value);
     });
 
-    return { userData, setUserData, persistUserData, loadUserData, clearUserData, isAuthenticated };
+    return {
+        userData,
+        setUserData,
+        persistUserData,
+        loadUserData,
+        clearUserData,
+        isAuthenticated,
+        checkJWT, 
+        logout
+    };
 });

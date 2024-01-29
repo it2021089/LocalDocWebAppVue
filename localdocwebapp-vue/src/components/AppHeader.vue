@@ -5,6 +5,9 @@
       <li >
         <a href="/home" class="nav-link box">Home</a>
       </li>
+      <li >
+        <button @click="testFunction()">Test</button>
+      </li>
       <li v-if="hasRole('CLIENT')">
         <a href="/client/new" class="nav-link box">Add Client</a>
       </li> 
@@ -36,34 +39,28 @@
 </template> 
 
 <script setup>
-import { ref, onBeforeMount, watch } from 'vue';
+import { onBeforeMount } from 'vue';
 import { useApplicationStore } from '@/stores/application.js';
 
-const { isAuthenticated, logout, userData } = useApplicationStore();
-
-const userRoles = ref([]); 
-
-const { isAuthenticated: checkIsAuthenticated } = useApplicationStore();
-watch(checkIsAuthenticated, (value) => {
-  isAuthenticated.value = value;
-});
+const { loadUserData,isAuthenticated,logout } = useApplicationStore();
+const userData = loadUserData();
 
 const handleLogout = () => {
   logout();
 };
 
 const hasRole = (role) => {
-  return isAuthenticated.value && userRoles.value.includes(role);
+  return isAuthenticated && userData.roles[0].includes(role);
 };
 
-onBeforeMount(() => {
-  if (userData.value && userData.value.roles) {
-    userRoles.value = userData.value.roles;
-  }
+onBeforeMount(async () => {
 });
 
+const testFunction = () => {
+    console.log(userData.roles[0]);
+   
+};
 </script>
-
 <style scoped>
 .header-box {
   display: flex;

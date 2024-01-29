@@ -6,10 +6,6 @@
     </template>
 
     <script>
-    import { useApplicationStore } from '@/stores/application.js';
-
-const {  userData } = useApplicationStore();
-console.log(userData.value);
 
     </script>
     <style>

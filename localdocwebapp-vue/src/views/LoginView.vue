@@ -42,70 +42,52 @@ import { useRouter } from 'vue-router';
 import { useApplicationStore } from '@/stores/application.js';
 
 const router = useRouter();
-const { setUserData, persistUserData, isAuthenticated, checkJWT } = useApplicationStore();
+const { setUserData, persistUserData, isAuthenticated } = useApplicationStore();
 
 const loading = ref(false);
 const credentials = ref({
-  username: '',
-  password: ''
+    username: '',
+    password: ''
 });
 const authenticationFailed = ref(false);
 
 const onFormSubmit = () => {
-  loading.value = true;
-  authenticationFailed.value = false;
+    loading.value = true;
+    authenticationFailed.value = false;
 
-  const formData = new FormData();
-  formData.append('username', credentials.value.username);
-  formData.append('password', credentials.value.password);
-
-  fetch('http://localhost:9090/login', {
-    method: 'POST',
-    body: formData,
-  })
-    .then((response) => {
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-
-      if (!response.ok) {
-        console.error('Login failed. Server returned non-OK status:', response.status);
-        throw new Error('Login failed');
-      }
-
-      return response.json();
+    fetch('http://localhost:9090/api/auth/signin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials.value)
     })
-    .then((data) => {
-      console.log('JSON data:', data);
-
-      if (checkJWT(data)) {
-        setUserData(data); // Ensure this sets the user data correctly
-        persistUserData(); // Ensure this persists the user data correctly
-        router.replace({ name: 'home' });
-
-        setTimeout(() => {
-          location.reload();
-        }, 500);
-      } else {
-        console.warn('Login failed:', data.error);
-        authenticationFailed.value = true;
-      }
-    })
-    .catch((err) => {
-      console.error('Error during login:', err);
-      authenticationFailed.value = true;
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+        .then((response) => {
+            if (response.ok) {
+                response.json().then((data) => {
+                    setUserData(data);
+                    persistUserData();
+                    router.push({ name: 'home' });
+                    setTimeout(() => {
+      location.reload();
+    }, 500);
+                });
+            } else {
+                authenticationFailed.value = true;
+            }
+        })
+        .catch((err) => {
+            console.warn(err);
+            authenticationFailed.value = true;
+        })
+        .finally(() => {
+            loading.value = false;
+        });
 };
 
 onBeforeMount(() => {
   if (isAuthenticated.value === true) {
     router.replace({ name: 'home' });
-
-    setTimeout(() => {
-      location.reload();
-    }, 500);
   }
 });
 

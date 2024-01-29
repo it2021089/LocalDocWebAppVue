@@ -1,9 +1,18 @@
+
+import { useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { useRouter } from 'vue-router';
 
-function checkJWT(response) {
-    return response && response.success === true;
+function checkJWT(token) {
+    if (token === null || token === undefined) {
+        return false;
+    }
+    const base64Url = token.split('.')[1];
+    if (!base64Url) return false;
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); 
+    const payload = JSON.parse(atob(base64));
+    const currentTime = Math.floor(Date.now() / 1000); 
+    return currentTime < payload.exp; 
 }
 
 export const useApplicationStore = defineStore('application', () => {
@@ -12,27 +21,30 @@ export const useApplicationStore = defineStore('application', () => {
     const setUserData = (tempUserData) => {
         userData.value = tempUserData;
     };
-
+   
     const persistUserData = () => {
         localStorage.setItem('userData', JSON.stringify(userData.value));
     };
-
+   
     const loadUserData = () => {
-        const tempUserData = localStorage.getItem('userData');
-        try {
-            userData.value = JSON.parse(tempUserData) || {};
-        } catch (error) {
-            console.error('Error parsing user data:', error);
-            userData.value = {};
+        let tempUserData = localStorage.getItem('userData');
+        tempUserData = JSON.parse(tempUserData);
+        if (tempUserData === null || tempUserData === undefined) {
+          console.log('userData is null or undefined');
+          return;
         }
+        userData.value = tempUserData;
+        return userData.value;
     };
-
+   
     const clearUserData = () => {
         localStorage.setItem('userData', JSON.stringify(null));
         userData.value = null;
-        isAuthenticated.value = false;
 
     };
+    const isAuthenticated = computed(() => {
+        return checkJWT(userData.value?.accessToken);
+    });
     const router = useRouter();
     const loading = ref(false);
 
@@ -46,10 +58,8 @@ export const useApplicationStore = defineStore('application', () => {
             location.reload();
         }, 500);
       };
-    const isAuthenticated = computed(() => {
-        return checkJWT(userData.value);
-    });
-
+ 
+      
     return {
         userData,
         setUserData,

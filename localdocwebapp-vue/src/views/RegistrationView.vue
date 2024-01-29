@@ -49,24 +49,21 @@
     username: '',
     email: '',
     password: '',
-    role: 'ROLE_CLIENT',
+    role: '',
   });
   
   const msg = ref('');
   const router = useRouter();
   
   const onFormSubmit = () => {
-    const endpoint = 'http://localhost:9090/api/auth/saveUser';
-  
-    // Create an object with the user data
-    const userData = {
+    const endpoint = 'http://localhost:9090/api/auth/signup';
+      const userData = {
       username: user.value.username,
       email: user.value.email,
       password: user.value.password,
-      role: user.value.role,
+      userRole: user.value.role,
     };
   
-    // Perform the HTTP POST request
     fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -88,12 +85,13 @@
           }, 2000);
         } else {
           msg.value = 'Failed to register user. Please try again.';
+          console.log(JSON.stringify(userData));
         }
       })
       .catch((error) => {
         console.error('Error during registration:', error);
         msg.value = 'An error occurred during registration. Please try again.';
-      });
+      }); 
   };
   </script>
   

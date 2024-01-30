@@ -63,6 +63,9 @@ const testFunction = () => {
 </script>
 <style scoped>
 .header-box {
+  position: sticky;
+  top: 0; /* Set to 0 to stick to the top */
+  z-index: 100; /* Set a higher z-index to ensure it's above other elements */
   display: flex;
   gap: 1rem;
   justify-content: flex-end; /* Align to the top-right */

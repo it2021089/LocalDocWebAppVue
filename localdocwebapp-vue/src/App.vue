@@ -1,23 +1,21 @@
 <script setup>
 import { onBeforeMount } from 'vue';
-import { RouterView, useRouter } from 'vue-router';
+import { RouterView } from 'vue-router';
 import { useApplicationStore } from '@/stores/application.js';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 
 const { loadUserData } = useApplicationStore();
-const router = useRouter();
 
 onBeforeMount(() => {
   loadUserData();
 });
 
-const isHomePage = () => router.currentRoute.value.name === 'home';
 </script>
 
 <template>
   <div id="app">
-    <AppHeader v-if="isHomePage" />
+    <AppHeader  />
     <RouterView />
     <AppFooter />
   </div>

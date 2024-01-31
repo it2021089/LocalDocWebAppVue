@@ -1,7 +1,8 @@
 <template>
-  <div class="overlay">
+  <div class="overlay nav-link box">
     <div class="form-container">
-
+      <div class="modal-container">
+        <div class="modal-content">
       <div class="text-center mb-4">
         <h1 class="fs-3">Add Client</h1>
       </div>
@@ -76,6 +77,8 @@
       </div>
     </div>
   </div>
+</div>
+  </div>
 </template>
 
 <script setup>
@@ -144,13 +147,27 @@ const clearForm = () => {
 body, html {
   margin: 0;
 }
+.modal-container {
+  width: 150%;
+  max-width: 1000px;
+  margin: 0 auto; 
+  align-items: center;
 
+}
+  
+  .modal-content {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #2d2c2c;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    
+  }
 .overlay {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%; 
-  background-color: #b1cfed;
+  background-color: transparent;
 }
 
 .form-container {
@@ -177,8 +194,8 @@ body, html {
   padding: 12px;
   font-size: 16px;
   border-radius: 8px;
-  background: linear-gradient(to right, #9efadd, #60f0ee, #a8e0ff);
-  color: #000000;
+  background: linear-gradient(to right, #646665, #2e3030, #2a2828);
+  color: #ffffff;
   transition: background 0.3s ease;
   border: none;
   outline: none;
@@ -213,5 +230,8 @@ body, html {
 
 .popup .icon {
   margin-right: 5px;
+}
+.nav-link {
+  color: #fff; /* Set your preferred text color */
 }
 </style>

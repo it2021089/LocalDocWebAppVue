@@ -5,9 +5,6 @@
       <li >
         <a href="/home" class="nav-link box">Home</a>
       </li>
-      <li >
-        <button @click="testFunction()">Test</button>
-      </li>
       <li v-if="hasRole('CLIENT')">
         <a href="/client/new" class="nav-link box">Add Client</a>
       </li> 
@@ -56,10 +53,6 @@ const hasRole = (role) => {
 onBeforeMount(async () => {
 });
 
-const testFunction = () => {
-    console.log(userData.roles[0]);
-   
-};
 </script>
 <style scoped>
 .header-box {
@@ -70,14 +63,10 @@ const testFunction = () => {
   gap: 1rem;
   justify-content: flex-end; /* Align to the top-right */
   padding: 1rem;
-  background-color: #b1cfed; /* Set your preferred background color */
+  background-color: transparent; /* Set your preferred background color */
   border-radius: 8px;
 }
 
-.centered {
-  display: flex;
-  align-items: center; /* Center vertically */
-}
 
 .navbar-nav {
   display: flex;
@@ -94,23 +83,13 @@ const testFunction = () => {
 }
 
 .nav-link:hover {
-  background-color: #007bff; /* Set your preferred hover background color */
+  background-color: #4c5155; /* Set your preferred hover background color */
 }
 
 .box {
   background-color: #202933; /* Set your preferred box background color */
 }
 
-.btn-primary {
-  background-color: #007bff; /* Set your preferred primary button color */
-  border-color: #007bff;
-  transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3; /* Set your preferred primary button hover color */
-  border-color: #0056b3;
-}
 .zoomInUp {
   animation: zoomInUp 1s ease;
 }

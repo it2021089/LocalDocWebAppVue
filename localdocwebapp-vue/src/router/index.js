@@ -28,7 +28,7 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/add-doctor',
+      path: '/doctor/new',
       name: 'add-doctor',
       component: () => import('../views/AddDoctorView.vue'),
       meta: { requiresAuth: true }
@@ -43,6 +43,12 @@ const router = createRouter({
       path: '/client/list',
       name: 'client-list',
       component: () => import('../views/ClientListView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/client/list/neardoctors',
+      name: 'near-doctors',
+      component: () => import('../views/ShowNearDoctorsView.vue'),
       meta: { requiresAuth: true }
     },
     {

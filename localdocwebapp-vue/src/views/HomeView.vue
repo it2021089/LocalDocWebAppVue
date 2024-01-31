@@ -1,9 +1,9 @@
     <template>
         
         <div>
-            <h1 class="zoomInUp">FamilyDocApp</h1>
+            <h1 class="zoomInUp white-text">FamilyDocApp</h1>
         </div>
-    </template>
+    </template> 
 
     <script>
 
@@ -12,7 +12,10 @@
     .zoomInUp {
     animation: zoomInUp 1s ease forwards;
     }
-
+    .white-text {
+  color: #fff; 
+ 
+}
     @keyframes zoomInUp {
     from {
         opacity: 0;

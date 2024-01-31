@@ -8,11 +8,10 @@
 
 <style scoped>
 .footer {
-  background-color: #b1cfed;; /* Set your preferred background color */
-  color: #7e8182; /* Set your preferred text color */
-  padding: 20px 0;
+  background-color: transparent; 
+  color: #ffffff; 
+  padding: 2px 0;
   position: fixed;
   bottom: 0;
-  width: 100%;
 }
 </style>

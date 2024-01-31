@@ -43,11 +43,11 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #b1cfed; 
+  background-color: #000000; 
 }
 
 header {
-  background-color: #3498db; 
+  background-color: #38444b; 
   color: #ffffff;
   padding: 1rem;
   text-align: center;

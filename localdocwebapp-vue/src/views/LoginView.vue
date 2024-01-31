@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay">
+  <div class="overlay white-text">
     <div class="modal-container">
       <div class="modal-content">
         <div class="text-center mb-4">
@@ -100,7 +100,7 @@ onBeforeMount(() => {
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: #b1cfed;
+  background-color: transparent;
 }
 
 .modal-container {
@@ -112,12 +112,8 @@ onBeforeMount(() => {
 .modal-content {
   padding: 20px;
   border-radius: 8px;
-  background-color: #dfeaf0;
+  background-color: #2d2c2c;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.form-group {
-  margin-bottom: 15px;
 }
 
 .form-control {
@@ -134,14 +130,19 @@ onBeforeMount(() => {
   padding: 12px;
   font-size: 16px;
   border-radius: 8px;
-  background: linear-gradient(to right, #9efadd, #60f0ee, #a8e0ff);
-  color: #000000;
+  background: linear-gradient(to right, #646665, #2e3030, #2a2828);
+  color: #ffffff;
   transition: background 0.3s ease;
-  border: none; /* Remove border property */
-  outline: none; /* Remove outline */
+  border: none;
+  outline: none;
+  margin-top: 20px;
 }
 
 .btn:hover {
   box-shadow: 0 0 10px rgba(80, 173, 240, 0.5);
+}
+.white-text 
+{
+  color: #fff;
 }
 </style>

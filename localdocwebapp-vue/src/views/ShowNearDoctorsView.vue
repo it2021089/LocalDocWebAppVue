@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div v-if="doctors && doctors.length > 0">
       <table class="table">
         <thead>
@@ -26,9 +27,9 @@
             <td>{{ doctor.speciality }}</td>
             <td v-if="doctor.id">
               <div>
-                  <button @click="requestApproval(clientId,doctor.id)" type="submit" class="btn btn-info">
-                    Request Approval for {{ firstName }} {{ lastName }}
-                  </button>
+                <button @click="requestApproval(clientId, doctor.id)" class="btn btn-info">
+                  Request Approval for {{ firstName }} {{ lastName }}
+                </button>
               </div>
             </td>
           </tr>
@@ -40,140 +41,222 @@
         <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
       </div>
     </div>
-  
+
     <div v-else>
       <h3>No Doctors</h3>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted, computed, getCurrentInstance } from 'vue';
-  import { useApplicationStore } from '@/stores/application.js';
-  
-  const { loadUserData } = useApplicationStore();
-  const userData = loadUserData();
-  const instance = getCurrentInstance();
-  const postalCode = instance.proxy.$route.query.postalCode;
-  const clientId = instance.proxy.$route.query.clientId;
-  const firstName = instance.proxy.$route.query.firstName;
-  const lastName = instance.proxy.$route.query.lastName;
-  const doctors = ref([]);
-  const itemsPerPage = 5;
-  const currentPage = ref(1);
-  
-  onMounted(() => {
-    fetch(`http://localhost:9090/api/client/list/doc/${postalCode}/${clientId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userData.accessToken}`,
-      },
+
+    <div v-if="showModal" class="modal">
+      <div class="modal-content success">
+        <span class="close" @click="closeModal">&times;</span>
+        <p>{{ modalMessage }}</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, computed, getCurrentInstance } from 'vue';
+import { useApplicationStore } from '@/stores/application.js';
+
+const { loadUserData } = useApplicationStore();
+const userData = loadUserData();
+const instance = getCurrentInstance();
+const postalCode = instance.proxy.$route.query.postalCode;
+const clientId = instance.proxy.$route.query.clientId;
+const firstName = instance.proxy.$route.query.firstName;
+const lastName = instance.proxy.$route.query.lastName;
+const doctors = ref([]);
+const itemsPerPage = 5;
+const currentPage = ref(1);
+const showModal = ref(false);
+const modalMessage = ref('');
+
+onMounted(() => {
+  fetch(`http://localhost:9090/api/client/list/doc/${postalCode}/${clientId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${userData.accessToken}`,
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      doctors.value = data;
     })
-      .then(response => response.json())
-      .then(data => {
-        doctors.value = data;
-      })
-      .catch(error => console.error('Error fetching doctors:', error));
-  });
-  
-  const paginatedDoctors = computed(() => {
-    const start = (currentPage.value - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return doctors.value.slice(start, end);
-  });
-  
-  const totalPages = computed(() => Math.ceil(doctors.value.length / itemsPerPage));
-  
-  const nextPage = () => {
-    if (currentPage.value < totalPages.value) {
-      currentPage.value++;
-    }
-  };
-  
-  const prevPage = () => {
-    if (currentPage.value > 1) {
-      currentPage.value--;
-    }
-  };
-  
-  const requestApproval = (clientId, doctorId) => {
-    const requestData = {
-    clientId: clientId,
-    doctorId: doctorId
-  };
-    fetch(`http://localhost:9090/api/pending/insert/${clientId}/${doctorId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userData.accessToken}`,
-        body: JSON.stringify(requestData)
-      },
-    })
+    .catch(error => console.error('Error fetching doctors:', error));
+});
+
+const paginatedDoctors = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return doctors.value.slice(start, end);
+});
+
+const totalPages = computed(() => Math.ceil(doctors.value.length / itemsPerPage));
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const requestApproval = (clientId, doctorId) => {
+  fetch(`http://localhost:9090/api/pending/insert/${clientId}/${doctorId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${userData.accessToken}`
+    },
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return response.json();
+
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        return response.text().then(data => {
+          try {
+            return JSON.parse(data);
+          } catch (jsonError) {
+            console.error('Error parsing JSON:', jsonError);
+            throw jsonError;
+          }
+        });
+      } else {
+        console.log('Non-JSON Response:', response);
+        return response.text();
+      }
     })
     .then(data => {
       console.log('Request approval successful:', data);
+      openModal('Request approval successful!');
     })
     .catch(error => {
       console.error('Error requesting approval:', error);
+      openModal('Error requesting approval. Please try again.');
     });
-};  
-  </script>
-  
-  <style scoped>
-  .pagination {
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+};
 
-  button {
-    background-color: #4f5054;
-    color: #fff;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
+const openModal = (message) => {
+  modalMessage.value = message;
+  showModal.value = true;
+};
 
-  button:hover {
-    background-color: #2c3e50; 
-  }
+const closeModal = () => {
+  showModal.value = false;
+};
 
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #333332;
-    border: none;
-    color: #fff;
-    border: 1px solid #000000;
-  }
+</script>
 
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #000000; /* Set the border color for lines and columns to black */
-  }
+<style scoped>
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  th {
-    background-color: #4f5054;
-    color: #fff;
-  }
+button {
+  background-color: #4f5054;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
 
-  .btn-info {
-    background-color: #4e565c;
-  }
+button:hover {
+  background-color: #2c3e50; 
+}
 
-  .white-text {
-    color: #fff;
-  }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #333332;
+  border: none;
+  color: #fff;
+  border: 1px solid #000000;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #000000;
+}
+
+th {
+  background-color: #4f5054;
+  color: #fff;
+}
+
+.btn-info {
+  background-color: #4e565c;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1001; /* Update this value to be higher than other elements */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex; /* Add this line */
+  align-items: center; /* Add this line */
+}
+
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 0 auto; /* Center the modal content */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%; /* Adjust the width as needed */
+  max-width: 400px; /* Add max-width for responsiveness */
+  z-index: 1002; /* Ensure the modal content has a higher z-index than the modal background */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.success {
+  color: #4CAF50; /* Green */
+}
+
+.error {
+  color: #f44336; /* Red */
+}
+
+/* Additional styles */
+.white-text {
+  color: #fff;
+}
+
+h3 {
+  color: #fff;
+}
 </style>
-  

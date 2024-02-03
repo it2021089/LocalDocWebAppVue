@@ -12,9 +12,6 @@
         <a href="/doctor/new" class="nav-link box">Add Doctor</a>
       </li>
       <li v-if="hasRole('CLIENT')">
-        <a href="/doctor/list" class="nav-link box">Show Doctors</a>
-      </li>
-      <li v-if="hasRole('CLIENT')">
         <a href="/client/list" class="nav-link box">Show Clients</a>
       </li>
       <li v-if="hasRole('DOCTOR')">

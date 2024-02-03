@@ -70,7 +70,7 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/pending-doctor-client',
+      path: '/pending/show',
       name: 'pending-doctor-client',
       component: () => import('../views/PendingDoctorClientView.vue'),
       meta: { requiresAuth: true }

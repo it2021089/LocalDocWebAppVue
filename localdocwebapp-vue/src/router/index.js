@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useApplicationStore } from '@/stores/application.js';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -71,8 +72,14 @@ const router = createRouter({
     },
     {
       path: '/pending/show',
-      name: 'pending-doctor-client',
+      name: 'pending-doctor',
       component: () => import('../views/PendingDoctorClientView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: `/pending/show/results`,
+      name: 'pending-doctor-client',
+      component: () => import('../views/PendingDoctorView.vue'),
       meta: { requiresAuth: true }
     },
     {

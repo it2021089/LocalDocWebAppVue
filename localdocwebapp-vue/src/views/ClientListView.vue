@@ -34,10 +34,10 @@
   </td>
               <td v-else>
                 <form @submit.prevent="removeCurrentDoctor(client.id, client.doctor.id)">
-                  <button type="submit" class="btn ">
+                  <button type="submit" class="btn btn-info">
                      Remove Current Doctor
                   </button>
-                  <a class="btn btn-success" @click="showFamily(client.id)">
+                  <a class="btn btn-info" @click="showFamily(client.id)">
                     <i class="fas fa-eye"></i> Show family
                   </a>
                 </form>
@@ -127,7 +127,7 @@ clientId:clientId
   };
   </script>
   
- <style scoped>
+  <style scoped>
   .pagination {
     margin-top: 10px;
     display: flex;
@@ -138,8 +138,9 @@ clientId:clientId
   .pagination button {
     background-color: #4f5054;
     color: #fff;
-    padding: 5px 10px;
+    padding: 8px 16px; /* Adjust the padding for buttons */
     cursor: pointer;
+    border: none;
   }
 
   .client-list-view {
@@ -149,24 +150,21 @@ clientId:clientId
     height: 100%;
   }
 
-
-
   .table {
-    width: 100%; 
+    width: 100%;
     border-collapse: collapse;
-    overflow: hidden; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: #333332;
-    border: none; 
-
-
-    border: 1px solid #000000; 
+    border: none;
+    border: 1px solid #000000;
+    margin-top: 10px; /* Add margin to the table */
   }
 
   th, td {
     padding: 12px;
     text-align: left;
-    border: 1px solid #000000; 
+    border: 1px solid #000000;
   }
 
   th {
@@ -174,18 +172,26 @@ clientId:clientId
     color: #fff;
   }
 
+  .btn-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .btn-container a {
-    display: inline-block;
     margin-right: 5px;
+    margin-bottom: 5px;
   }
 
   .btn-container .btn {
-    padding: 8px;
+    padding: 10px 20px !important;
     border-radius: 5px;
     text-decoration: none;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    background-color: #4e565c !important;
+    border: none;
+    display: inline-block;
   }
 
   .btn-container .btn:hover {
@@ -193,7 +199,11 @@ clientId:clientId
   }
 
   .btn-info {
-    background-color: #4e565c;
+    background-color: #3498db;
+  }
+
+  .btn-info:hover {
+    background-color: #2980b9;
   }
 
   .btn-success {
@@ -204,7 +214,8 @@ clientId:clientId
     margin-top: 20px;
     color: #2c3e50;
   }
+
   .white-text {
-  color: #fff; 
-}
+    color: #fff;
+  }
 </style>

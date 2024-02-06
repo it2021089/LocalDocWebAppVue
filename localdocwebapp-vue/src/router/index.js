@@ -65,7 +65,7 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/family-list',
+      path: '/family/list',
       name: 'family-list',
       component: () => import('../views/FamilyListView.vue'),
       meta: { requiresAuth: true }

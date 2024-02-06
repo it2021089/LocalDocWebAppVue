@@ -27,7 +27,7 @@
             <td>{{ doctor.speciality }}</td>
             <td v-if="doctor.id">
               <div>
-                <button @click="requestApproval(clientId, doctor.id)" class="btn btn-info">
+                <button @click="requestApproval(clientId, doctor.id)" class="btn stylish-btn">
                   Request Approval for {{ firstName }} {{ lastName }}
                 </button>
               </div>
@@ -177,7 +177,42 @@ button {
 button:hover {
   background-color: #2c3e50; 
 }
+.stylish-btn {
+  padding: 12px 24px !important;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  background-color: #4e565c !important;
+  border: none;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.stylish-btn:hover {
+  background-color: #2c3e50;
+  transform: scale(1.05);
+}
 
+.stylish-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #11212b, #133145);
+  z-index: -1;
+  transition: transform 0.3s ease;
+  transform: scaleX(0);
+  transform-origin: right;
+}
+
+.stylish-btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
 .table {
   width: 100%;
   border-collapse: collapse;

@@ -24,12 +24,12 @@
                         <td v-if="family.id">
                             <form style="display: inline-block" @submit.prevent="editFamily(family.id)">
 
-                            <button @click="editFamilyForm" class="btn stylish-btn">
+                            <button @click="editFamilyForm" class="editBtn btn stylish-btn">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
                             </form>
                             <form style="display: inline-block" @submit.prevent="removeFamily(family.id)">
-                                <button type="submit" class="btn stylish-btn"><i class="fas fa-trash-alt"></i> Remove</button>
+                                <button type="submit" class="removeBtn btn stylish-btn"><i class="fas fa-trash-alt"></i> Remove</button>
                             </form>
                         </td>
                     </tr>
@@ -325,6 +325,12 @@ const updateFamily = () => {
 {
     margin-top: 20px;
 }
+
+.editBtn{
+    margin-right: 5px;
+}
+
+
     .stylish-btn {
         padding: 12px 24px !important;
         border-radius: 25px;

@@ -76,12 +76,8 @@
           msg.value = 'User registered successfully! Redirecting to login...';
   
           setTimeout(() => {
-            router.push({ name: 'login' });
-            setTimeout(()=>
-            { 
-              location.reload();
-            }
-            )
+            router.push("/login");
+           
           }, 2000);
         } else {
           msg.value = 'Failed to register user. Please try again.';
@@ -100,14 +96,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; /* Set height to 100% */
+  height: 100%; 
   background-color: transparent;
 }
   
 .modal-container {
   width: 100%;
   max-width: 400px;
-  margin: 0 auto; /* Center the container horizontally */
+  margin: 0 auto; 
 }
   
   .modal-content {

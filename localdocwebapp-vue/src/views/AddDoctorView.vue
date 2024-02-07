@@ -2,7 +2,7 @@
   <div class="overlay white-text box">
     <div class="form-container mb-4">
       <div class="modal-container">
-        <div class="modal-content">
+        <div class="content">
           <div class="text-center mb-4">
             <h1 class="fs-3">Add Doctor</h1>
           </div>
@@ -75,13 +75,12 @@
             <button type="submit" class="btn btn-primary btn-lg rounded-3 font-bold">Submit</button>
           </form>
 
-          <div v-if="successMessage" class="popup success-popup">
-            <span class="icon">✔</span> {{ successMessage }}
-          </div>
-
-          <div v-if="failureMessage" class="popup failure-popup">
-            <span class="icon">✘</span> {{ failureMessage }}
-          </div>
+          <div v-if="showModal" class="modal">
+      <div class="modal-content success">
+        <span class="close" @click="closeModal">&times;</span>
+        <p>{{ modalMessage }}</p>
+      </div>
+    </div>
         </div>
       </div>
     </div>
@@ -107,9 +106,16 @@ const doctor = ref({
   maxClients: ''
 });
 
-const successMessage = ref('');
-const failureMessage = ref('');
+const showModal = ref(false);
+const modalMessage = ref('');
+const openModal = (message) => {
+  modalMessage.value = message;
+  showModal.value = true;
+};
 
+const closeModal = () => {
+  showModal.value = false;
+};
 const onFormSubmit = () => {
   fetch('http://localhost:9090/api/doctor/saveDoctor', {
     method: 'POST',
@@ -121,14 +127,14 @@ const onFormSubmit = () => {
   })
     .then((response) => {
       if (response.ok) {
-        successMessage.value = 'Doctor saved successfully!';
+        openModal('Doctor saved successfully!');
         clearForm();
       } else {
-        failureMessage.value = 'Failed to save doctor.';
+        openModal('Failed to save doctor.');
       }
     })
     .catch((error) => {
-      failureMessage.value = `Error: ${error}`;
+      console.log(`Error: ${error}`);
     });
 };
 
@@ -144,11 +150,6 @@ const clearForm = () => {
     speciality: '',
     maxClients: ''
   };
-
-  setTimeout(() => {
-    successMessage.value = '';
-    failureMessage.value = '';
-  }, 1000); 
 };
 
 </script>
@@ -162,7 +163,7 @@ body, html {
     display: flex;
     justify-content: center;
   }
-.modal-content {
+.content {
   padding: 20px;
   border-radius: 8px;
   background-color: #2d2c2c;
@@ -174,7 +175,7 @@ body, html {
   justify-content: center;
   height: 100%; 
   background-color: transparent;
-  overflow: hidden; /* Add this line to prevent scrolling */
+  overflow: hidden; 
 }
 .form-container {
     height: 750px;
@@ -209,29 +210,53 @@ body, html {
 .btn:hover {
   box-shadow: 0 0 10px rgba(80, 173, 240, 0.5);
 }
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-}
-.success-popup {
-  color: green;
-  border: 2px solid green;
-}
-.failure-popup {
-  color: red;
-  border: 2px solid red;
-}
-.popup .icon {
-  margin-right: 5px;
-}
+
 .white-text {
-  color: #fff; /* Set your preferred text color */
+  color: #fff; 
 }
+.modal {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background-color: #333332;
+        color: #fff;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #fff;
+        width: 60%;
+        max-width: 400px;
+        z-index: 1002;
+    }
+
+    .close {
+        color: #fff;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #aaa;
+        text-decoration: none;
+    }
+
+    .success {
+        color: #b9bdb9;
+    }
+
 </style>

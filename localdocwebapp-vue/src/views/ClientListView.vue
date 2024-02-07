@@ -86,8 +86,11 @@ const openModal = (message) => {
 };
 
 const closeModal = () => {
-  showModal.value = false;
-};
+        showModal.value = false;
+        setTimeout(() => {
+      location.reload();
+    }, 500);
+    };
 onMounted(() => {
   fetch('http://localhost:9090/api/client/list', {
     method: 'GET',
@@ -208,56 +211,51 @@ th {
   background-color: #4f5054;
   color: #fff;
 }
-
-.btn-container {
-  display: flex;
-  gap: 5px;
-  justify-content: center;
-}
-
-
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1001; /* Update this value to be higher than other elements */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex; /* Add this line */
-  align-items: center; /* Add this line */
-}
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
+    .modal-content {
+        background-color: #333332;
+        color: #fff;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #fff;
+        width: 60%;
+        max-width: 400px;
+        z-index: 1002;
+    }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 0 auto; /* Center the modal content */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 60%; /* Adjust the width as needed */
-  max-width: 400px; /* Add max-width for responsiveness */
-  z-index: 1002; /* Ensure the modal content has a higher z-index than the modal background */
-}
+    .close {
+        color: #fff;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
+    .close:hover,
+    .close:focus {
+        color: #aaa;
+        text-decoration: none;
+    }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.success {
-  color: #4CAF50; /* Green */
-}.btn {
+    .success {
+        color: #b9bdb9;
+    }
+.btn {
   padding: 10px 20px !important;
   border-radius: 5px;
   text-decoration: none;
@@ -271,18 +269,6 @@ th {
 
 .btn:hover {
   background-color: #2c3e50;
-}
-
-.btn-info {
-  background-color: #3498db;
-}
-
-.btn-info:hover {
-  background-color: #2980b9;
-}
-
-.btn-success {
-  background-color: #191919;
 }
 
 .stylish-btn {
@@ -330,26 +316,5 @@ h3 {
 
 .white-text {
   color: #fff;
-}
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-}
-
-.success-popup {
-  color: green;
-  border: 2px solid green;
-}
-
-.failure-popup {
-  color: red;
-  border: 2px solid red;
 }
 </style>

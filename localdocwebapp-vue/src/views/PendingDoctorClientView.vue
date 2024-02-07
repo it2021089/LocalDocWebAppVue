@@ -147,16 +147,6 @@ th {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
-.btn-info {
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-}
-
-.btn-info:hover {
-  background-color: #217dbb;
-}
 .pagination {
   margin-top: 10px;
   display: flex;

@@ -18,7 +18,7 @@
         <a href="/pending/show" class="nav-link box">Show Pending</a>
       </li>
       <li v-if="hasRole('ADMIN')">
-        <a khref="/users" class="nav-link box">Users</a>
+        <a href="/users" class="nav-link box">Users</a>
       </li>
       <li v-if="isAuthenticated">
     <a href="#" @click.prevent="handleLogout" class="nav-link box">Log Out</a>
@@ -54,13 +54,13 @@ onBeforeMount(async () => {
 <style scoped>
 .header-box {
   position: sticky;
-  top: 0; /* Set to 0 to stick to the top */
-  z-index: 100; /* Set a higher z-index to ensure it's above other elements */
+  top: 0; 
+  z-index: 100; 
   display: flex;
   gap: 1rem;
-  justify-content: flex-end; /* Align to the top-right */
+  justify-content: flex-end;
   padding: 1rem;
-  background-color: transparent; /* Set your preferred background color */
+  background-color: transparent; 
   border-radius: 8px;
 }
 
@@ -72,7 +72,7 @@ onBeforeMount(async () => {
 }
 
 .nav-link {
-  color: #fff; /* Set your preferred text color */
+  color: #fff; 
   text-decoration: none;
   padding: 1rem;
   border-radius: 8px;
@@ -80,11 +80,11 @@ onBeforeMount(async () => {
 }
 
 .nav-link:hover {
-  background-color: #4c5155; /* Set your preferred hover background color */
+  background-color: #4c5155;
 }
 
 .box {
-  background-color: #202933; /* Set your preferred box background color */
+  background-color: #202933; 
 }
 
 .zoomInUp {

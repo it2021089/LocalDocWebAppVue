@@ -17,12 +17,6 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
       path: '/client/new',
       name: 'client-new',
       component: () => import('../views/AddClientView.vue'),
@@ -32,12 +26,6 @@ const router = createRouter({
       path: '/doctor/new',
       name: 'add-doctor',
       component: () => import('../views/AddDoctorView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/add-family',
-      name: 'add-family',
-      component: () => import('../views/AddFamilyView.vue'),
       meta: { requiresAuth: true }
     },
     {
@@ -53,15 +41,9 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/doctor/list',
-      name: 'doctor-list',
-      component: () => import('../views/DoctorListView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/edit-user',
-      name: 'edit-user',
-      component: () => import('../views/EditUserView.vue'),
+      path: '/users',
+      name: 'users',
+      component: () => import('../views/UsersView.vue'),
       meta: { requiresAuth: true }
     },
     {

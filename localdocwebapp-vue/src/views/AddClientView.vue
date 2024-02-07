@@ -1,8 +1,8 @@
 <template>
-  <div class="overlay nav-link box">
+  <div class="overlay white-text box">
     <div class="form-container">
       <div class="modal-container">
-        <div class="modal-content">
+        <div class="content">
       <div class="text-center mb-4">
         <h1 class="fs-3">Add Client</h1>
       </div>
@@ -68,13 +68,12 @@
         <button type="submit" class="btn btn-primary btn-lg rounded-3 font-bold">Submit</button>
       </form>
 
-      <div v-if="successMessage" class="popup success-popup">
-        <span class="icon">✔</span> {{ successMessage }}
+      <div v-if="showModal" class="modal">
+      <div class="modal-content success">
+        <span class="close" @click="closeModal">&times;</span>
+        <p>{{ modalMessage }}</p>
       </div>
-
-      <div v-if="failureMessage" class="popup failure-popup">
-        <span class="icon">✘</span> {{ failureMessage }}
-      </div>
+    </div>
     </div>
   </div>
 </div>
@@ -98,9 +97,16 @@ const client = ref({
   state: '',
   postal_code: ''
 });
+const showModal = ref(false);
+const modalMessage = ref('');
+const openModal = (message) => {
+  modalMessage.value = message;
+  showModal.value = true;
+};
 
-const successMessage = ref('');
-const failureMessage = ref('');
+const closeModal = () => {
+  showModal.value = false;
+};
 
 const onFormSubmit = () => {
   fetch('http://localhost:9090/api/client/saveClient', {
@@ -113,14 +119,14 @@ const onFormSubmit = () => {
   })
     .then((response) => {
       if (response.ok) {
-        successMessage.value = 'Client saved successfully!';
+        openModal('Client saved successfully!');
         clearForm();
       } else {
-        failureMessage.value = 'Failed to save client.';
+        openModal('Failed to save client.');
       }
     })
     .catch((error) => {
-      failureMessage.value = `Error: ${error}`;
+      console.log = `Error: ${error}`;
     });
 };
 
@@ -136,14 +142,52 @@ const clearForm = () => {
     postal_code: ''
   };
 
-  setTimeout(() => {
-    successMessage.value = '';
-    failureMessage.value = '';
-  }, 3000); 
 };
 </script>
 
 <style scoped>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1001; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex; 
+  align-items: center; 
+}
+
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 0 auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%; 
+  max-width: 400px; 
+  z-index: 1002; 
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.success {
+  color: #4CAF50; 
+}
 body, html {
   margin: 0;
 }
@@ -155,7 +199,7 @@ body, html {
 
 }
   
-  .modal-content {
+  .content {
     padding: 20px;
     border-radius: 8px;
     background-color: #2d2c2c;
@@ -228,10 +272,10 @@ body, html {
   border: 2px solid red;
 }
 
-.popup .icon {
+.icon {
   margin-right: 5px;
 }
-.nav-link {
-  color: #fff; /* Set your preferred text color */
+.white-text {
+  color: #fff; 
 }
 </style>

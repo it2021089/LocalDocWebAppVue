@@ -141,7 +141,6 @@ const requestApproval = (clientId, doctorId) => {
     })
     .catch(error => {
       console.error('Error requesting approval:', error);
-      openModal('Error requesting approval. Please try again.');
     });
 };
 
@@ -235,58 +234,51 @@ th {
   color: #fff;
 }
 
-.btn-info {
-  background-color: #4e565c;
-}
-
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1001; /* Update this value to be higher than other elements */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex; /* Add this line */
-  align-items: center; /* Add this line */
-}
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
+    .modal-content {
+        background-color: #333332;
+        color: #fff;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #fff;
+        width: 60%;
+        max-width: 400px;
+        z-index: 1002;
+    }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 0 auto; /* Center the modal content */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 60%; /* Adjust the width as needed */
-  max-width: 400px; /* Add max-width for responsiveness */
-  z-index: 1002; /* Ensure the modal content has a higher z-index than the modal background */
-}
+    .close {
+        color: #fff;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
+    .close:hover,
+    .close:focus {
+        color: #aaa;
+        text-decoration: none;
+    }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
+    .success {
+        color: #b9bdb9;
+    }
 
-.success {
-  color: #4CAF50; /* Green */
-}
-
-.error {
-  color: #f44336; /* Red */
-}
-
-/* Additional styles */
 .white-text {
   color: #fff;
 }

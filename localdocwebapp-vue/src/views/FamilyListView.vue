@@ -314,6 +314,9 @@ const updateFamily = () => {
 
     const closeModal = () => {
         showModal.value = false;
+        setTimeout(() => {
+      location.reload();
+    }, 500);
     };
 </script>
 

@@ -46,7 +46,7 @@
             <h3>No Family Members</h3>
         </div>
 
-        <button @click="addFamily" class="btn stylish-btn">
+        <button @click="addFamily" class="btn stylish-btn pos">
             Add family
         </button>
 
@@ -321,6 +321,10 @@ const updateFamily = () => {
 </script>
 
 <style>
+.pos 
+{
+    margin-top: 20px;
+}
     .stylish-btn {
         padding: 12px 24px !important;
         border-radius: 25px;

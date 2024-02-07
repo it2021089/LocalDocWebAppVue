@@ -256,6 +256,7 @@ th {
         color: #b9bdb9;
     }
 .btn {
+  margin-right: 5px;
   padding: 10px 20px !important;
   border-radius: 5px;
   text-decoration: none;

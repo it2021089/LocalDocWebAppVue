@@ -82,7 +82,16 @@ onMounted(() => {
   })
     .then(response => response.json())
     .then(data => {
-      doctors.value = data;
+      let doc = [];
+      for (let i =0; i<data.length;i++) 
+      {
+        if (data[i].currentClients < data[i].maxClients) 
+        {
+          doc.push(data[i]);
+        }
+      }
+      doctors.value = doc;
+
     })
     .catch(error => console.error('Error fetching doctors:', error));
 });

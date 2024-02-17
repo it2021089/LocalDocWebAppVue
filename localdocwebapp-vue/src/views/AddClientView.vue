@@ -109,7 +109,7 @@ const closeModal = () => {
 };
 
 const onFormSubmit = () => {
-  fetch('http://localhost:9090/api/client/saveClient', {
+  fetch('http://localhost:9090/api/client/saveClient', { //send post request to add client
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -119,10 +119,10 @@ const onFormSubmit = () => {
   })
     .then((response) => {
       if (response.ok) {
-        openModal('Client saved successfully!');
+        openModal('Client saved successfully!'); //if response is ok display saved 
         clearForm();
       } else {
-        openModal('Failed to save client.');
+        openModal('Failed to save client.');//response not ok show failed message
       }
     })
     .catch((error) => {

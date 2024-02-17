@@ -46,7 +46,7 @@
         </tbody>
       </table>
 
-      <div class="pagination white-text">
+      <div class="pagination white-text"> <!-- buttons for previous and next pages in the table -->
         <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
         Page {{ currentPage }} of {{ totalPages }}
         <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
@@ -91,7 +91,7 @@ const closeModal = () => {
       location.reload();
     }, 500);
     };
-onMounted(() => {
+onMounted(() => { //send get request to get the list of the clients
   fetch('http://localhost:9090/api/client/list', {
     method: 'GET',
     headers: {
@@ -106,7 +106,7 @@ onMounted(() => {
     .catch(error => console.error('Error fetching clients:', error));
 });
 
-const paginatedClients = computed(() => {
+const paginatedClients = computed(() => { //shows only 5 clients per page 
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   return clients.value.slice(start, end);
@@ -126,7 +126,7 @@ const prevPage = () => {
   }
 };
 
-const showNearDoctors = (postalCode, clientId, firstName, lastName) => {
+const showNearDoctors = (postalCode, clientId, firstName, lastName) => {//If user clicks on Show Near Doctors send him to near-doctors and query the data 
   router.push({
     name: 'near-doctors',
     query: {
@@ -138,14 +138,14 @@ const showNearDoctors = (postalCode, clientId, firstName, lastName) => {
   });
 };
 
-const showFamily = (clientId) => {
+const showFamily = (clientId) => { //If user clicks on Show Family send him to family-list and query the data 
   router.push({
     name: "family-list", 
     query: { clientId: clientId }
   });
 };
 
-const removeCurrentDoctor = (clientId, doctorId) => {
+const removeCurrentDoctor = (clientId, doctorId) => { //Send a post request to remove the current doctor of the client
   fetch(`http://localhost:9090/api/client/list/${clientId}/removeDoc/${doctorId}`, {
     method: 'POST',
     headers: {
@@ -154,9 +154,9 @@ const removeCurrentDoctor = (clientId, doctorId) => {
     },
   })
   .then((response) => {
-      if (response.ok) {
+      if (response.ok) { //if reponse is ok show message succesfull 
         openModal('Removed Doctor successfully!');
-      } else {
+      } else { //reseponse is not ok show
         openModal('Failed to remove Doctor.');
       }
     })

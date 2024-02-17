@@ -55,7 +55,7 @@ const onFormSubmit = () => {
     loading.value = true;
     authenticationFailed.value = false;
 
-    fetch('http://localhost:9090/api/auth/signin', {
+    fetch('http://localhost:9090/api/auth/signin', { //Send a POST request for the user to log in
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ const onFormSubmit = () => {
         body: JSON.stringify(credentials.value)
     })
         .then((response) => {
-            if (response.ok) {
+            if (response.ok) { //if user exists send him to home page and save his data
                 response.json().then((data) => {
                     setUserData(data);
                     persistUserData();
@@ -72,7 +72,7 @@ const onFormSubmit = () => {
       location.reload();
     }, 500);
                 });
-            } else {
+            } else { //otherwise he doesn't exist 
                 authenticationFailed.value = true;
             }
         })
@@ -85,7 +85,7 @@ const onFormSubmit = () => {
         });
 };
 
-onBeforeMount(() => {
+onBeforeMount(() => { //if he goes to /login and he is already logged in send him to home page
   if (isAuthenticated.value === true) {
     router.replace({ name: 'home' });
   }

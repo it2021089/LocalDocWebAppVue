@@ -51,7 +51,7 @@ export default {
     const showOptionsModal = ref(false);
     const selectedDoctorName = ref('');
 
-    const showOptions = (doctorId) => {
+    const showOptions = (doctorId) => { //if user clicks on show options send him there and query the data
   router.push({
     path: `/pending/show/results`,
     query: { doctorId: doctorId }
@@ -59,7 +59,7 @@ export default {
 };
 
 onMounted(() => {
-  fetch(`http://localhost:9090/api/pending/show`, {
+  fetch(`http://localhost:9090/api/pending/show`, { //send a GET request to retrieve a list of Doctors with Pending Requests
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ onMounted(() => {
       console.error('Error sending GET request:', error);
     });
 });
-    const paginatedClients = computed(() => {
+    const paginatedClients = computed(() => { //Show only 5 doctors per page
       const start = (currentPage.value - 1) * itemsPerPage;
       const end = start + itemsPerPage;
       return pendingApprovalsClients.value.slice(start, end);

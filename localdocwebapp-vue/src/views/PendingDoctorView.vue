@@ -59,7 +59,7 @@ const doctorId =  router.currentRoute.value.query.doctorId
       const pendingApprovalsClients = ref([]);
       const showModal = ref(false);
       const msg = ref('');
-      const acceptClient = (clientId) => {
+      const acceptClient = (clientId) => { //If the doctors clicks on Accept Client send a POST request to accept him
 
   fetch(`http://localhost:9090/api/pending/show/${doctorId}/${clientId}`, {
     method: 'POST',
@@ -70,7 +70,7 @@ const doctorId =  router.currentRoute.value.query.doctorId
   })
   .then(response => {
   if (response.ok) {
-    response.text().then(result => {
+    response.text().then(result => { //if response is ok display a message with the result 
       msg.value = result;
       openModal();
     });
@@ -85,7 +85,7 @@ const doctorId =  router.currentRoute.value.query.doctorId
 
 const declineClient = (clientId) => {
 
-  fetch(`http://localhost:9090/api/pending/show/${doctorId}/${clientId}/decline`, {
+  fetch(`http://localhost:9090/api/pending/show/${doctorId}/${clientId}/decline`, { //If the doctors clicks on Decline Client send a POST request to decline him
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ const declineClient = (clientId) => {
 };
 
     onMounted(() => {
-  fetch(`http://localhost:9090/api/pending/show/${doctorId}`, {
+  fetch(`http://localhost:9090/api/pending/show/${doctorId}`, { //send a GET request to get a list of the clients that have sent a Request Approval to this doctor
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

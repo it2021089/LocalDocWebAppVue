@@ -174,7 +174,7 @@
     const itemsPerPage = 5;
     const currentPage = ref(1);
 
-    const paginatedFamilies = computed(() => {
+    const paginatedFamilies = computed(() => { //shows only 5 family members per page 
         const start = (currentPage.value - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         return families.value.slice(start, end);
@@ -194,23 +194,23 @@
         }
     };
 
-    const addFamily = () => {
+    const addFamily = () => { //pop up with add family member form. If user clicks on the button it displays it
         showAddForm.value = true;
     };
     const editFamilyForm = () => 
     {
-        showEditForm.value = true;
+        showEditForm.value = true;//pop up with edit family member form. If user clicks on the button it displays it
     }
-    const submitFamily = () => {
+    const submitFamily = () => { //add family member
         const today = new Date();
         const selectedDate = new Date(newFamily.value.birthDate);
 
-        if (selectedDate > today) {
+        if (selectedDate > today) { //check for birth date
             openModal("Birth date cannot be a future date.");
             return;
         }
 
-        fetch(`http://localhost:9090/api/family/new/${clientId}`, {
+        fetch(`http://localhost:9090/api/family/new/${clientId}`, { //send post request to save family member
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -218,7 +218,7 @@
             },
             body: JSON.stringify(newFamily.value)
         })
-            .then(response => {
+            .then(response => { //if response is ok clear the input fields and show successful message.
                 if (response.ok) {
                     newFamily.value = { firstName: '', lastName: '', gender: '', birthDate: '', relation: '' };
                     openModal('Family member added successfully!');
@@ -232,7 +232,7 @@
                 console.error('Error adding new family member:', error);
             });
     };
-    const editFamily = (familyId) => {
+    const editFamily = (familyId) => { //send a get request to retrieve the info of the family member that the user wants to edit
         tempFamilyId.value = familyId;
     const today = new Date();
     const selectedDate = new Date(newFamily.value.birthDate);
@@ -242,7 +242,7 @@
         return;
     }
 
-    fetch(`http://localhost:9090/api/family/${familyId}`, {
+    fetch(`http://localhost:9090/api/family/${familyId}`, { 
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -258,7 +258,7 @@
     });
 };
 
-const updateFamily = () => {
+const updateFamily = () => { //send a post request with the new info of the family member that the user wants to edit
     fetch(`http://localhost:9090/api/family/${tempFamilyId.value}/${clientId}/edit`, {
         method: 'POST',
         headers: {
@@ -279,15 +279,15 @@ const updateFamily = () => {
         console.error('Error updating family member:', error);
     });
 };
-    const cancelAddFamily = () => {
+    const cancelAddFamily = () => { //when users clicks on the X button in the pop up it closes it and clears the input fields
         newFamily.value = { firstName: '', lastName: '', gender: '', birthDate: '', relation: '' };
         showAddForm.value = false;
     };
-    const cancelEditFamily = () => {
+    const cancelEditFamily = () => { //when users clicks on the X button in the pop up it closes it and clears the input fields
         newFamily.value = { firstName: '', lastName: '', gender: '', birthDate: '', relation: '' };
         showEditForm.value = false;
     };
-    const removeFamily = (familyId) => {
+    const removeFamily = (familyId) => { //send a post request to remove a family member 
         fetch(`http://localhost:9090/api/family/${familyId}/remove`, {
             method: 'POST',
             headers: {

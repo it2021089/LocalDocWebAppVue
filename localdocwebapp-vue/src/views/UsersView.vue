@@ -50,7 +50,7 @@
   const modalMessage = ref('');
 
   onMounted(() => {
-    fetch(`http://localhost:9090/api/admin/users`, {
+    fetch(`http://localhost:9090/api/admin/users`, { //Send a GET request to get a list of all the users
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -72,7 +72,7 @@
   });
   
   const removeUser = (userId) => {
-    fetch(`http://localhost:9090/api/admin/users/${userId}/remove`, {
+    fetch(`http://localhost:9090/api/admin/users/${userId}/remove`, { //Send a POST request to remove the user from the system
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

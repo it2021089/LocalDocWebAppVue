@@ -117,7 +117,7 @@ const closeModal = () => {
   showModal.value = false;
 };
 const onFormSubmit = () => {
-  fetch('http://localhost:9090/api/doctor/saveDoctor', {
+  fetch('http://localhost:9090/api/doctor/saveDoctor', { //Send post request to add doctor 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -127,10 +127,10 @@ const onFormSubmit = () => {
   })
     .then((response) => {
       if (response.ok) {
-        openModal('Doctor saved successfully!');
+        openModal('Doctor saved successfully!'); //if ok show saved message
         clearForm();
       } else {
-        openModal('Failed to save doctor.');
+        openModal('Failed to save doctor.'); //response not ok show failed message
       }
     })
     .catch((error) => {

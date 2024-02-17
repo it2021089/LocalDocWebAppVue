@@ -72,7 +72,7 @@ const currentPage = ref(1);
 const showModal = ref(false);
 const modalMessage = ref('');
 
-onMounted(() => {
+onMounted(() => { //Send a GET request to retrieve a list of the Near Doctors
   fetch(`http://localhost:9090/api/client/list/doc/${postalCode}/${clientId}`, {
     method: 'GET',
     headers: {
@@ -81,11 +81,11 @@ onMounted(() => {
     },
   })
     .then(response => response.json())
-    .then(data => {
+    .then(data => { 
       let doc = [];
-      for (let i =0; i<data.length;i++) 
+      for (let i =0; i<data.length;i++)  
       {
-        if (data[i].currentClients < data[i].maxClients) 
+        if (data[i].currentClients < data[i].maxClients) //check if the doctor has maximum amount of clients otherwise display him on the page
         {
           doc.push(data[i]);
         }
@@ -116,7 +116,7 @@ const prevPage = () => {
   }
 };
 
-const requestApproval = (clientId, doctorId) => {
+const requestApproval = (clientId, doctorId) => { //send a POST request to requst approval from the doctor
   fetch(`http://localhost:9090/api/pending/insert/${clientId}/${doctorId}`, {
     method: 'POST',
     headers: {

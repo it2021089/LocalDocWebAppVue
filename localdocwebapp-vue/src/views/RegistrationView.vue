@@ -56,7 +56,7 @@
   const router = useRouter();
   
   const onFormSubmit = () => {
-    const endpoint = 'http://localhost:9090/api/auth/signup';
+    const endpoint = 'http://localhost:9090/api/auth/signup'; 
       const userData = {
       username: user.value.username,
       email: user.value.email,
@@ -64,7 +64,7 @@
       userRole: user.value.role,
     };
   
-    fetch(endpoint, {
+    fetch(endpoint, { //send a POST request for the user to sign up
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,14 +72,14 @@
       body: JSON.stringify(userData),
     })
       .then((response) => {
-        if (response.ok) {
+        if (response.ok) { //if user doesn't exist (response ok) redirect him to login page
           msg.value = 'User registered successfully! Redirecting to login...';
   
           setTimeout(() => {
             router.push("/login");
            
           }, 2000);
-        } else {
+        } else { //User exists try again
           msg.value = 'Failed to register user. Please try again.';
           console.log(JSON.stringify(userData));
         }

@@ -14,11 +14,9 @@
             <td>{{ pending.firstName }}</td>
             <td>{{ pending.lastName }}</td>
             <td v-if="pending.id">
-              <template v-if="pending.currentClients < pending.maxClients">
                 <button @click="showOptions(pending.id)" class="btn stylish-btn">
                   Show Options
                 </button>
-              </template>
             </td>
           </tr>
         </tbody>

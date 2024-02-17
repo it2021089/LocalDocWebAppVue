@@ -36,7 +36,7 @@
       <div v-if="showModal" class="modal">
       <div class="modal-content success">
         <span class="close" @click="closeModal">&times;</span>
-        <p>Operation Success!</p>
+        <p>{{ msg }}</p>
       </div>
     </div>
     </div>
@@ -58,7 +58,7 @@ const userData = loadUserData();
 const doctorId =  router.currentRoute.value.query.doctorId
       const pendingApprovalsClients = ref([]);
       const showModal = ref(false);
-
+      const msg = ref('');
       const acceptClient = (clientId) => {
 
   fetch(`http://localhost:9090/api/pending/show/${doctorId}/${clientId}`, {
@@ -68,13 +68,16 @@ const doctorId =  router.currentRoute.value.query.doctorId
       'Authorization': `Bearer ${userData.accessToken}`
     },
   })
-    .then(response => {
-      if (response.ok) {
-        openModal();
-      } else {
-        console.error('Failed to accept client:', response.statusText);
-      }
-    })
+  .then(response => {
+  if (response.ok) {
+    response.text().then(result => {
+      msg.value = result;
+      openModal();
+    });
+  } else {
+    console.error('Failed to accept client:', response.statusText);
+  }
+})
     .catch(error => {
       console.error('Error accepting client:', error);
     });
@@ -91,8 +94,11 @@ const declineClient = (clientId) => {
   })
     .then(response => {
       if (response.ok) {
-        openModal();
-      } else {
+    response.text().then(result => {
+      msg.value = result;
+      openModal();
+    });
+  } else {
         console.error('Failed to decline client:', response.statusText);
       }
     })
@@ -100,6 +106,7 @@ const declineClient = (clientId) => {
       console.error('Error declining client:', error);
     });
 };
+
     onMounted(() => {
   fetch(`http://localhost:9090/api/pending/show/${doctorId}`, {
     method: 'GET',
@@ -132,7 +139,8 @@ const closeModal = () => {
       declineClient,
       openModal,
       closeModal,
-      showModal
+      showModal,
+      msg
       };
     },
   };

@@ -50,7 +50,7 @@ const credentials = ref({
     password: ''
 });
 const authenticationFailed = ref(false);
-const backendURL = import.meta.env.VUE_APP_API_URL;
+const backendURL = import.meta.env.VITE_BACKEND;
 const onFormSubmit = () => {
     loading.value = true;
     authenticationFailed.value = false;

@@ -54,9 +54,10 @@
   
   const msg = ref('');
   const router = useRouter();
-  
+  const backendURL = import.meta.env.VITE_APP_API_URL;
+
   const onFormSubmit = () => {
-    const endpoint = 'http://localhost:9090/api/auth/signup'; 
+    const endpoint = `${backendURL}/api/auth/signup`; 
       const userData = {
       username: user.value.username,
       email: user.value.email,

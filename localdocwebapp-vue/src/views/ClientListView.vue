@@ -79,6 +79,7 @@ const clients = ref([]);
 const itemsPerPage = 5;
 const currentPage = ref(1);
 const showModal = ref(false);
+const backendURL = import.meta.env.VITE_APP_API_URL;
 const modalMessage = ref('');
 const openModal = (message) => {
   modalMessage.value = message;
@@ -92,7 +93,7 @@ const closeModal = () => {
     }, 500);
     };
 onMounted(() => { //send get request to get the list of the clients
-  fetch('http://localhost:9090/api/client/list', {
+  fetch(`${backendURL}api/client/list`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -146,7 +147,7 @@ const showFamily = (clientId) => { //If user clicks on Show Family send him to f
 };
 
 const removeCurrentDoctor = (clientId, doctorId) => { //Send a post request to remove the current doctor of the client
-  fetch(`http://localhost:9090/api/client/list/${clientId}/removeDoc/${doctorId}`, {
+  fetch(`${backendURL}/api/client/list/${clientId}/removeDoc/${doctorId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

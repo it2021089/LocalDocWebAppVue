@@ -60,8 +60,9 @@ const doctorId =  router.currentRoute.value.query.doctorId
       const showModal = ref(false);
       const msg = ref('');
       const acceptClient = (clientId) => { //If the doctors clicks on Accept Client send a POST request to accept him
+        const backendURL = import.meta.env.VITE_APP_API_URL;
 
-  fetch(`http://localhost:9090/api/pending/show/${doctorId}/${clientId}`, {
+  fetch(`${backendURL}/api/pending/show/${doctorId}/${clientId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ const doctorId =  router.currentRoute.value.query.doctorId
 
 const declineClient = (clientId) => {
 
-  fetch(`http://localhost:9090/api/pending/show/${doctorId}/${clientId}/decline`, { //If the doctors clicks on Decline Client send a POST request to decline him
+  fetch(`${backendURL}/api/pending/show/${doctorId}/${clientId}/decline`, { //If the doctors clicks on Decline Client send a POST request to decline him
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -108,7 +109,7 @@ const declineClient = (clientId) => {
 };
 
     onMounted(() => {
-  fetch(`http://localhost:9090/api/pending/show/${doctorId}`, { //send a GET request to get a list of the clients that have sent a Request Approval to this doctor
+  fetch(`${backendURL}/api/pending/show/${doctorId}`, { //send a GET request to get a list of the clients that have sent a Request Approval to this doctor
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

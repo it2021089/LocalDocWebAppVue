@@ -71,9 +71,10 @@ const itemsPerPage = 5;
 const currentPage = ref(1);
 const showModal = ref(false);
 const modalMessage = ref('');
+const backendURL = import.meta.env.VITE_APP_API_URL;
 
 onMounted(() => { //Send a GET request to retrieve a list of the Near Doctors
-  fetch(`http://localhost:9090/api/client/list/doc/${postalCode}/${clientId}`, {
+  fetch(`${backendURL}/api/client/list/doc/${postalCode}/${clientId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -117,7 +118,7 @@ const prevPage = () => {
 };
 
 const requestApproval = (clientId, doctorId) => { //send a POST request to requst approval from the doctor
-  fetch(`http://localhost:9090/api/pending/insert/${clientId}/${doctorId}`, {
+  fetch(`${backendURL}/api/pending/insert/${clientId}/${doctorId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

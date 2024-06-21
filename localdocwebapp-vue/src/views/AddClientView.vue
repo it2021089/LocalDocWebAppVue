@@ -107,9 +107,10 @@ const openModal = (message) => {
 const closeModal = () => {
   showModal.value = false;
 };
+const backendURL = import.meta.env.VITE_APP_API_URL;
 
 const onFormSubmit = () => {
-  fetch('http://localhost:9090/api/client/saveClient', { //send post request to add client
+  fetch(`${backendURL}/api/client/saveClient`, { //send post request to add client
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

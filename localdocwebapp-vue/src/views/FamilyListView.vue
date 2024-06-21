@@ -144,8 +144,9 @@
     const showModal = ref(false);
     const modalMessage = ref('');
     const tempFamilyId = ref('');
+    const backendURL = import.meta.env.VITE_APP_API_URL;
     onMounted(() => {
-        fetch(`http://localhost:9090/api/family/list/${clientId}`, {
+        fetch(`${backendURL}/api/family/list/${clientId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -210,7 +211,7 @@
             return;
         }
 
-        fetch(`http://localhost:9090/api/family/new/${clientId}`, { //send post request to save family member
+        fetch(`${backendURL}/api/family/new/${clientId}`, { //send post request to save family member
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -242,7 +243,7 @@
         return;
     }
 
-    fetch(`http://localhost:9090/api/family/${familyId}`, { 
+    fetch(`${backendURL}/api/family/${familyId}`, { 
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -259,7 +260,7 @@
 };
 
 const updateFamily = () => { //send a post request with the new info of the family member that the user wants to edit
-    fetch(`http://localhost:9090/api/family/${tempFamilyId.value}/${clientId}/edit`, {
+    fetch(`${backendURL}api/family/${tempFamilyId.value}/${clientId}/edit`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -288,7 +289,7 @@ const updateFamily = () => { //send a post request with the new info of the fami
         showEditForm.value = false;
     };
     const removeFamily = (familyId) => { //send a post request to remove a family member 
-        fetch(`http://localhost:9090/api/family/${familyId}/remove`, {
+        fetch(`${backendURL}/api/family/${familyId}/remove`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

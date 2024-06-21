@@ -116,8 +116,10 @@ const openModal = (message) => {
 const closeModal = () => {
   showModal.value = false;
 };
+const backendURL = import.meta.env.VITE_APP_API_URL;
+
 const onFormSubmit = () => {
-  fetch('http://localhost:9090/api/doctor/saveDoctor', { //Send post request to add doctor 
+  fetch(`${backendURL}api/doctor/saveDoctor`, { //Send post request to add doctor 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -57,9 +57,10 @@ export default {
     query: { doctorId: doctorId }
   });
 };
+const backendURL = import.meta.env.VITE_APP_API_URL;
 
 onMounted(() => {
-  fetch(`http://localhost:9090/api/pending/show`, { //send a GET request to retrieve a list of Doctors with Pending Requests
+  fetch(`${backendURL}/api/pending/show`, { //send a GET request to retrieve a list of Doctors with Pending Requests
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

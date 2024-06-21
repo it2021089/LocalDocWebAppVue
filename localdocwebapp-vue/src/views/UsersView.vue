@@ -48,9 +48,11 @@
   const currentPage = ref(1);
   const showModal = ref(false);
   const modalMessage = ref('');
+  const backendURL = import.meta.env.VITE_APP_API_URL;
+
 
   onMounted(() => {
-    fetch(`http://localhost:9090/api/admin/users`, { //Send a GET request to get a list of all the users
+    fetch(`${backendURL}/api/admin/users`, { //Send a GET request to get a list of all the users
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -72,7 +74,7 @@
   });
   
   const removeUser = (userId) => {
-    fetch(`http://localhost:9090/api/admin/users/${userId}/remove`, { //Send a POST request to remove the user from the system
+    fetch(`${backendURL}/api/admin/users/${userId}/remove`, { //Send a POST request to remove the user from the system
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

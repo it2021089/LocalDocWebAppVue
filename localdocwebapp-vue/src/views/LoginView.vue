@@ -50,12 +50,12 @@ const credentials = ref({
     password: ''
 });
 const authenticationFailed = ref(false);
-
+const backendURL = import.meta.env.VUE_APP_API_URL;
 const onFormSubmit = () => {
     loading.value = true;
     authenticationFailed.value = false;
 
-    fetch('http://localhost:9090/api/auth/signin', { //Send a POST request for the user to log in
+    fetch(`${backendURL}/api/auth/signin`, { //Send a POST request for the user to log in
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

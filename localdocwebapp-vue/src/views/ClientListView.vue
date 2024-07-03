@@ -93,7 +93,7 @@ const closeModal = () => {
     }, 500);
     };
 onMounted(() => { //send get request to get the list of the clients
-  fetch(`${backendURL}api/client/list`, {
+  fetch(`${backendURL}/api/client/list`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

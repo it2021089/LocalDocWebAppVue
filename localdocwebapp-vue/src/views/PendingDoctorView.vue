@@ -60,6 +60,8 @@ const doctorId =  router.currentRoute.value.query.doctorId
       const showModal = ref(false);
       const msg = ref('');
       const backendURL = import.meta.env.VITE_APP_API_URL;
+      console.log('backendURL:', backendURL); // Προσθέστε αυτό το log
+
       const acceptClient = (clientId) => { //If the doctors clicks on Accept Client send a POST request to accept him
 
   fetch(`${backendURL}/api/pending/show/${doctorId}/${clientId}`, {

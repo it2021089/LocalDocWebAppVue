@@ -59,8 +59,8 @@ const doctorId =  router.currentRoute.value.query.doctorId
       const pendingApprovalsClients = ref([]);
       const showModal = ref(false);
       const msg = ref('');
+      const backendURL = import.meta.env.VITE_APP_API_URL;
       const acceptClient = (clientId) => { //If the doctors clicks on Accept Client send a POST request to accept him
-        const backendURL = import.meta.env.VITE_APP_API_URL;
 
   fetch(`${backendURL}/api/pending/show/${doctorId}/${clientId}`, {
     method: 'POST',

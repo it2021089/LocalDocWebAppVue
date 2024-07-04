@@ -22,7 +22,7 @@ FROM nginx:stable-alpine as production-stage
 # Copy the built application from the previous stage to the Nginx container
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-# Copy the nginx configuration file
+# Copy the nginx configuration file from localdocwebapp-vue
 COPY localdocwebapp-vue/assets/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
